@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="fontawesome-i2" <!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title> Liberty Mutual Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script defer="" src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+    <!-- 
+    <style type="text/css">
+    </style>
+    -->
+    <link rel="stylesheet" href="full.css"/>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="main-menu">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="liberty.jpg" id="logo"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" id="active" href="#">Dashboard <span class="sr-only">(current)</span> </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Application</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Message</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Page Content -->
+    <div class="container" id="content">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script>
+        var app;
+
+        window.onload = function() {
+            //** mock card data; this would be retrieved from a service in a real scenario
+            var cards = [
+                { name: 'Cesar Rios', id: 'ID-'+ Date.now(), address: '2300 Cloud Way', city: 'Austin', state: 'TX', zip: '78704', phone: '(555)555-5555', type: 'Health Insurance' },
+                { name: 'Joe Finley', id: 'ID-'+ Date.now(), address: '2300 Cloud Way', city: 'Austin', state: 'TX', zip: '78704', phone: '(555)555-5555', type: 'Health Insurance' },
+                { name: 'Theodore Pohts', id: 'ID-'+ Date.now(), address: '2300 Cloud Way', city: 'Austin', state: 'TX', zip: '78704', phone: '(555)555-5555', type: 'Health Insurance' },
+                { name: 'Jane Smith', id: 'ID-'+ Date.now(), address: '2300 Cloud Way', city: 'Austin', state: 'TX', zip: '78704', phone: '(555)555-5555', type: 'Health Insurance' }
+            ];
+
+            //** this is mock data; in a real data scenario, app.onAddTab would be called from an api service callback
+            var tabs = [
+                { 
+                    count: 6, 
+                    label: 'New Applications',
+                    cards: [].concat(cards).concat([cards[0], cards[2]])
+                },
+                { 
+                    count: 4,
+                    label: 'Pending Applications',
+                    cards: [].concat(cards.reverse()),
+                },
+                { 
+                    count: 7, 
+                    label: 'Rejected Applications',
+                    cards: [].concat(cards).concat([cards[1], cards[2], cards[0]])
+                },
+                { 
+                    count: 5, 
+                    label: 'Pending Messages',
+                    cards: [].concat(cards.reverse()).concat([cards[3]])
+                }
+            ];
+
+            //** render the mock tabs; select the first
+            tabs.forEach(app.onAddTab);
+            tabs[0].select();
+
+        }
+
+
+        app = {
+            onClearTabs: function() {
+                $('.left').html('');
+            },
+
+            onSelectTab: function(tab, e) {
+                var elem = $(e.currentTarget);
+
+                if(!elem[0]) return;
+                $('.left article').removeClass('selected');
+                elem.addClass('selected');
+
+                var rightElem = $('.right');
+                rightElem.html('');
+                tab && tab.cards && tab.cards.forEach(function(data) {
+                    app.onAddCard(data, rightElem);
+                });
+            },
+
+            onAddTab: function(data) {
+                //** create the tab element
+                var tab = data.elem = $('<article class="status-box"></article>');
+                tab.append($('<figure>'+ data.count +'</figure>'));
+                tab.append($('<p>'+ data.label +'</p>'));
+
+                //** add it to the page, add the click handler
+                tab.appendTo($('.left'));
+                tab.click(app.onSelectTab.bind(app, data));
+
+                data.select = function() { app.onSelectTab(data, { currentTarget: data.elem[0] }); }
+            },
+
+            onAddCard: function(data, parent) {
+                var elem = $('<div class="card">'
+                    + '<div class="card-body">'
+                    + '<h5 class="card-title">'+ data.name +'</h5>'
+                    + '<h6 class="card-subtitle mb-2 text-muted">'+ data.id+'</h6>'
+                    + '<p class="card-text">'
+                    + data.address +'<br>'+ data.city +', '+ data.state +' '+ data.zip +'<br>'+ data.phone +'<br> <b>Type: '+ data.type
+                    + '</p>'
+                    + '<a href="#" class="btn btn-success card-link"><i class="fa fa-check-circle"></i> Approve</a>'
+                    + '<a href="#" class="btn btn-secondary card-link"><i class="fa fa-times-circle"></i> Dismiss</a>'
+                    + '</div>'
+                    + '</div>');
+
+                elem.appendTo(parent);
+            }
+        }
+
+    </script>
+    <script>
+        function soap() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('POST', 'http://localhost:7001/LibertyInsurance-WebServiceApp-context-root/HelloWorldAppPort?wsdl', true);
+    
+            // build SOAP request
+            var sr =
+                '<?xml version="1.0" encoding="UTF-8"?>'+
+                '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+                    '<soap:Header/>'+
+                    '<soap:Body>'+
+                        '<ns1:getName xmlns:ns1="http://webserviceapp/"/>'+
+                    '<\/soap:Body>'+
+                '<\/soap:Envelope>';
+            console.log(sr);
+            
+            // Send the POST request
+            xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+            xmlhttp.setRequestHeader('SOAPAction', 'getName');
+            xmlhttp.send(sr);
+            // send request
+            
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                    if (xmlhttp.status == 200) {
+                        alert(xmlhttp.responseText)
+                        var xmlDoc = $.parseXML( xmlhttp.responseText ),
+                        $xml = $(xmlDoc),
+                        $value= $xml.find("return");
+                        var arr = [];
+                        for (var i = 0; i < $value.length; i++) {
+                            arr.push($value[i].textContent);
+                        }
+                        var customers = '['+arr.join(', ')+']';
+                        console.log(customers);
+                        console.log(JSON.parse(customers));
+                    }
+                }
+            }
+        }
+        
+    </script>
+
+    <body>
+</html>

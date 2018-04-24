@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+    <title>SOAP JavaScript Client Test</title>
+</head>
+<body>
+    <form name="Demo" action="" method="post">
+        <input type="button" value="Soap" onclick="soap()"/>
+    </form>
+    <br><br>
+    <a href="liberty.html" target="_self">Liberty Insurance</a>
+    
+    
+<script>
+    function soap() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('POST', 'http://localhost:7001/LibertyInsurance-WebServiceApp-context-root/HelloWorldAppPort?wsdl', true);
+
+        // build SOAP request
+        var sr =
+            '<?xml version="1.0" encoding="UTF-8"?>'+
+            '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+                '<soap:Header/>'+
+                '<soap:Body>'+
+                    '<ns1:getName xmlns:ns1="http://webserviceapp/"/>'+
+                '<\/soap:Body>'+
+            '<\/soap:Envelope>';
+        console.log(sr);
+        
+        // Send the POST request
+        xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+        xmlhttp.setRequestHeader('SOAPAction', 'getName');
+        xmlhttp.send(sr);
+        // send request
+        
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                if (xmlhttp.status == 200) {
+                    alert(xmlhttp.responseText)
+                    var xmlDoc = $.parseXML( xmlhttp.responseText ),
+                    $xml = $(xmlDoc),
+                    $value= $xml.find("return");
+                    var arr = [];
+                    for (var i = 0; i < $value.length; i++) {
+                        arr.push($value[i].textContent);
+                    }
+                    var customers = '['+arr.join(', ')+']';
+                    console.log(customers);
+                    console.log(JSON.parse(customers));
+                }
+            }
+        }
+    }
+    
+</script>
+</body>
+</html> <!-- typo -->

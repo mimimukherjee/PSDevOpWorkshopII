@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>SOAP JavaScript Client Test</title>
+</head>
+<body>
+    <form name="Demo" action="" method="post">
+        <INPUT TYPE="text" NAME="inputbox" VALUE=""/>
+        <input type="button" value="Soap" onclick="soap(this.form)"/>
+    </form>
+    <br><br>
+    <a href="index.html" target="_self">State Gov</a>
+    
+    
+<script>
+    function soap(form) {
+        var value = form.inputbox.value;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('POST', 'http://localhost:7001/StateGov-WebService-context-root/HelloWorldPort?wsdl', true);
+
+        // build SOAP request
+        var sr =
+            '<?xml version="1.0" encoding="UTF-8"?>'+
+            '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+                '<soap:Header/>'+
+                '<soap:Body>'+
+                    '<ns1:submit xmlns:ns1="http://webservice/">'+
+                        '<arg0>'+value+'<\/arg0>'+
+                    '<\/ns1:submit>'+
+                '<\/soap:Body>'+
+            '<\/soap:Envelope>';
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status == 200) {
+                    alert('Notifying Liberty Insurance.');
+                }
+            }
+        }
+        // Send the POST request
+        xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+        xmlhttp.setRequestHeader('SOAPAction', 'getName');
+        xmlhttp.send(sr);
+        // send request
+        // ...
+    }
+    
+</script>
+</body>
+</html> <!-- typo -->

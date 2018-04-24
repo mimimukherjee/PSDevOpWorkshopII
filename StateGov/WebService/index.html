@@ -1,0 +1,168 @@
+<!doctype html>
+
+<html>
+    <head>
+            <meta charset="utf-8">
+
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
+
+            <title>Human Health Service - State Health Insurances</title>
+
+            <!-- Fonts, Bootstrap, Fontawesome  -->
+            <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <script defer="" src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+
+<!--
+            <style type="text/css">
+            .button,.button:focus{outline:0}#main-menu .active a,.button,h1{color:#fff}*{box-sixing:border-box}body{padding-top:76px;background-color:#8c9ab6;height:100%;font-family:Lato,sans-serif}body.bg .bg{position:fixed;top:0;right:0;bottom:0;left:0;background-image:url(https://texas.gov/wp-content/themes/portal-2015-theme/library/assets/img_opt/66.jpg);background-size:cover;opacity:.8;box-shadow:0 0 32px -4px rgba(0,0,0,.6) inset}a,a:link,a:visited{color:#000}.logo{height:50px}.button{position:relative;background-color:#A03336;padding:1rem 2rem;border-radius:10px;border:0;min-width:200px;font-size:1.4rem}.button .spinner{width:110px;position:absolute;top:-10px;right:-25px;opacity:0}.button.show .spinner{opacity:1}#alert-success{margin-top:1rem;text-align:center;transition:opacity linear .3s;opacity:0}#alert-success.show{opacity:1}#main-menu{background-color:rgba(255,255,255,.9);border-bottom:1px solid rgba(0,0,0,.4)}#main-menu a{color:#444;text-transform:uppercase}#main-menu .active{background-color:#A03336;border-radius:5px}#main-menu .nav-item{padding:0 5px}.section{display:block;margin:2rem auto;background-color:rgba(0,0,0,.5);border-radius:20px;padding:2rem}.section input[type=text]{display:block;padding:1rem;border:0;border-radius:6px;width:100%;margin:2rem 0}h1{font-weight:900;font-size:3rem;text-shadow:2px 2px #444;margin:0 auto 2rem}
+            </style>
+-->
+            <link rel="stylesheet" href="full.css"/>
+        </head>
+        <body class="bg">
+
+        <aside class="bg"></aside>
+
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg fixed-top" id="main-menu">
+    <div class="container">
+        <div class="navbar-brand" href="#">
+            <img class="logo" src="hhs-logo.png">
+            <span>Human Health Services</span>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa fa-2x fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Records</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" id="active" href="#">Agencies
+                        <span class="sr-only">(current)</span>
+                      </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Social</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="alert-success" class="alert alert-success" role="alert">
+You have successfully signed up!
+</div>
+
+
+<!-- Page Content -->
+<div class="container" id="pageContent">
+    <div class="col-lg-12 text-center">
+        <h1>Sign Up for Liberty Insurance</h1>
+
+        <div class="section col-lg-6">
+            <input id="txt-name" name="name" placeholder="Full Name" type="text"/>
+            <input id="txt-address" name="address" placeholder="Full Address" type="text"/>
+            <input id="txt-phone" name="phone" placeholder="Phone Number" type="text"/>
+            <input id="txt-ssn" name="ssn" placeholder="Social Security Number (SSN)" type="text"/>
+        </div>
+
+        <button class="button" id="btnSubmit">
+            Sign Up!
+            <img class="spinner" src="https://community.denodo.com/docs/img/spinner_3.gif"/>
+        </button> 
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    var btnSubmit;
+	var MESSAGE_DELAY = 10000;
+
+    window.onload = function() {
+        //** wire up the sign up button click event
+        btnSubmit = $('#btnSubmit');
+        btnSubmit.click(signup);
+
+        function signup() {
+            btnSubmit.addClass('show');
+
+            //** get the data from the form
+            var data = {
+                name: $('#txt-name').val(),
+                address: $('#txt-address').val(),
+                phone: $('#txt-phone').val(),
+                ssn: $('#txt-ssn').val()
+            }
+
+            //** build the soap envelope
+            var soapData =
+                '<?xml version="1.0" encoding="UTF-8"?>'+
+                '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+                    '<soap:Header/>'+
+                    '<soap:Body>'+
+                        '<ns1:submit xmlns:ns1="http://webservice/">'+
+                            '<arg0>'+ data.name +'<\/arg0>'+
+                            '<arg1>'+ data.address +'<\/arg1>'+
+                            '<arg2>'+ data.phone +'<\/arg2>'+
+                            '<arg3>'+ data.ssn +'<\/arg3>'+
+                        '<\/ns1:submit>'+
+                    '<\/soap:Body>'+
+                '<\/soap:Envelope>';
+
+            //** initiate an http request
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('POST', '/StateGov-WebService-context-root/HelloWorldPort?wsdl', true);
+            xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+            xmlhttp.setRequestHeader('SOAPAction', 'submit');
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4) {
+					//** reset the form
+					$('#txt-name').val('');
+					$('#txt-address').val('');
+					$('#txt-phone').val('');
+					$('#txt-ssn').val('');
+
+                    //** on success, show an alert
+                    if (xmlhttp.status == 200) {
+                        $('#alert-success').addClass('show');
+                        setTimeout(function() { $('#alert-success').removeClass('show') }, MESSAGE_DELAY);
+                    }
+
+                    btnSubmit.removeClass('show');
+                }
+            }
+
+            //** send it
+            xmlhttp.send(soapData);
+        }
+    }
+
+    var img = new Image();
+    img.src = "https://community.denodo.com/docs/img/spinner_3.gif";
+</script>
+
+
+</body>
+</html>
+

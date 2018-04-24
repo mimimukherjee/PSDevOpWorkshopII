@@ -1,0 +1,23 @@
+### Authentication details 
+export TF_VAR_user="cloud.admin"
+export TF_VAR_password="wiredWake1@"
+export TF_VAR_domain="idcs-d4d9f32f8ee24f10a6564025801fbf4c"
+export TF_VAR_tenancy="gse00014452"
+export TF_VAR_object_storage_user="gse-admin_ww@oracle.com"
+
+### Public/private keys used on the instance
+export TF_VAR_ssh_public_key_path="/app/sshkey/testdrive-public.pub"
+export TF_VAR_ssh_public_key=$(cat /app/sshkey/testdrive-public.pub)
+export TF_VAR_ssh_private_key=$(cat /app/sshkey/testdrive_unix.prv)
+export TF_VAR_ssh_authorized_private_key=$(cat /app/sshkey/testdrive_unix.prv)
+
+### Authentication details for oci provider
+export TF_VAR_tenancy_ocid="ocid1.tenancy.oc1..aaaaaaaareh7ebxf2fuccyk2llvndo2rw6y64mbcusgxi77exwgggfgxqy6a"
+export TF_VAR_user_ocid="ocid1.user.oc1..aaaaaaaampyii4cgwvdyzcz6th7muqzggobziwcdc7ua6shgm77wk7ejgvsq"  #gse-admin_ww@oracle.com
+export TF_VAR_fingerprint="27:3e:ea:41:6b:25:5d:23:52:ec:7b:ce:b6:98:19:f3"
+export TF_VAR_private_key_path="/app/.oci/oci_api_key.pem"
+export TF_VAR_region="us-ashburn-1"
+export TF_VAR_compartment_ocid="ocid1.compartment.oc1..aaaaaaaaxumy75nhsolc63fbrvubip5k4khli5bzegup3tw3tchmv4bxdr7q"
+export TF_VAR_paas_compartment_ocid="ocid1.compartment.oc1..aaaaaaaadl2fbqj4e73udr2p5dbnao34c4mela3n2yqoh6dzasdtwujcg5kq"
+export TF_VAR_swift_password="tbExR]9hdzuSxX6NS>aC"
+export TF_VAR_subscription_id="590548480"

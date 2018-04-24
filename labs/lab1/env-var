@@ -1,0 +1,23 @@
+### Authentication details 
+export TF_VAR_user="cloud.admin"
+export TF_VAR_password="<password for cloud.admin>"
+export TF_VAR_domain="<Identity Service Id: idcs-.........>"
+export TF_VAR_tenancy="<Cloud Account Name: gse000#### >"
+export TF_VAR_object_storage_user="gse-admin_ww@oracle.com"
+
+### Public/private keys used on the instance
+export TF_VAR_ssh_public_key_path=~/.ssh/id_rsa.pub
+export TF_VAR_ssh_public_key=$(cat ~/.ssh/id_rsa.pub)
+export TF_VAR_ssh_private_key=$(cat ~/.ssh/id_rsa)
+export TF_VAR_ssh_authorized_private_key=$(cat ~/.ssh/id_rsa)
+
+### Authentication details for oci provider
+export TF_VAR_tenancy_ocid="<OCI tenancy ocid>"
+export TF_VAR_user_ocid="<OCI user ocid for user: gse-admin_ww@oracle.com >"
+export TF_VAR_fingerprint="27:3e:ea:41:6b:25:5d:23:52:ec:7b:ce:b6:98:19:f3"
+export TF_VAR_private_key_path=~/.oci/oci_api_key.pem
+export TF_VAR_region="<OCI Home Region>"
+export TF_VAR_compartment_ocid="<OCI compartment ocid for Demo compartment>"
+export TF_VAR_paas_compartment_ocid="<OCI compartment ocid for ManagedCompartmentForPaaS compartment>"
+export TF_VAR_swift_password="<generated swift password for gse-admin_ww@oracle.com user>"
+export TF_VAR_subscription_id="<Subscription ID>"

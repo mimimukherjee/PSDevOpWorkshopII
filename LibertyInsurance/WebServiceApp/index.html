@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="fontawesome-i2" <!DOCTYPE html>
+<html>
+
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+
+	<title> Liberty Mutual Dashboard</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+	<!-- Bootstrap core CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script defer="" src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+	<link rel="stylesheet" href="full.css"/>
+</head>
+
+<body>
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg fixed-top" id="main-menu">
+		<div class="container">
+			<a class="navbar-brand" href="#"><img src="liberty.jpg" id="logo"></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a class="nav-link" id="active" href="#">Dashboard <span class="sr-only">(current)</span> </a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="#">Application</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Message</a>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Page Content -->
+	<div class="container" id="content">
+		<div class="left"></div>
+		<div class="right"></div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script>
+		var app, tabs = [], cards = [];
+
+		window.onload = function() {
+			//** mock card data; this would be retrieved from a service in a real scenario
+			var mockCards = [
+				{ name: 'Cesar Rios', id: 'ID-'+ Date.now(), address: '2300 Cloud Way', city: 'Austin', state: 'TX', zip: '78704', phone: '(555)555-5555', type: 'Health Insurance' },
+				{ name: 'Joe Finley', id: 'ID-'+ Date.now(), address: '2300 Cloud Way', city: 'Austin', state: 'TX', zip: '78704', phone: '(555)555-5555', type: 'Health Insurance' },
+				{ name: 'Theodore Pohts', id: 'ID-'+ Date.now(), address: '2300 Cloud Way', city: 'Austin', state: 'TX', zip: '78704', phone: '(555)555-5555', type: 'Health Insurance' },
+				{ name: 'Jane Smith', id: 'ID-'+ Date.now(), address: '2300 Cloud Way', city: 'Austin', state: 'TX', zip: '78704', phone: '(555)555-5555', type: 'Health Insurance' }
+			];
+	
+			app.onGetData();
+		}
+
+
+
+		app = {
+			onGetData: function() {
+				cards = [];
+
+				//** get the data
+				soap(function() {
+
+					//** build the (mock) tabs; this is the datasource for the UI
+					tabs = [
+						{ 
+							count: 6, 
+							label: 'New Applications',
+							cards: [].concat(cards),
+						},
+						{ 
+							count: 4,
+							label: 'Pending Applications',
+							cards: [].concat(cards),
+						},
+						{ 
+							count: 7, 
+							label: 'Rejected Applications',
+							cards: [].concat(cards),
+						},
+						{ 
+							count: 5, 
+							label: 'Pending Messages',
+							cards: [].concat(cards),
+						}
+					];
+
+					//** render the UI
+					app.onRender();
+					setTimeout(app.onGetData, 10000);
+				});
+			},
+
+			onRender: function() {
+				app.onClearTabs();
+
+				//** render the mock tabs; select the first
+				tabs.forEach(app.onAddTab);
+				tabs[0].select();
+			},
+
+			onClearTabs: function() {
+				$('.left').html('');
+			},
+
+			onSelectTab: function(tab, e) {
+				var elem = $(e.currentTarget);
+
+				if(!elem[0]) return;
+				$('.left article').removeClass('selected');
+				elem.addClass('selected');
+
+				var rightElem = $('.right');
+				rightElem.html('');
+				tab && tab.cards && tab.cards.forEach(function(data) {
+					app.onAddCard(data, rightElem);
+				});
+			},
+
+			onAddTab: function(data) {
+				//** create the tab element
+				var tab = data.elem = $('<article class="status-box"></article>');
+				tab.append($('<figure>'+ data.count +'</figure>'));
+				tab.append($('<p>'+ data.label +'</p>'));
+
+				//** add it to the page, add the click handler
+				tab.appendTo($('.left'));
+				tab.click(app.onSelectTab.bind(app, data));
+
+				data.select = function() { app.onSelectTab(data, { currentTarget: data.elem[0] }); }
+			},
+
+			onAddCard: function(data, parent) {
+				var elem = $('<div class="card">'
+					+ '<div class="card-body">'
+					+ '<h5 class="card-title">'+ data.name +'</h5>'
+					//+ '<h6 class="card-subtitle mb-2 text-muted">ID-000-00-0000</h6>'
+					+ '<p class="card-text">'
+					+ data.address +'<br>'+ data.phone +'<br> <b>Type: '+ data.type
+					+ '</p>'
+					+ '<a href="#" class="btn btn-approve card-link"><i class="fa fa-check-circle"></i> Approve</a>'
+					+ '<a href="#" class="btn btn-dismiss card-link"><i class="fa fa-times-circle"></i> Dismiss</a>'
+					+ '</div>'
+					+ '</div>');
+
+				elem.appendTo(parent);
+			}
+		}
+
+		function soap(cb) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open('POST', '/LibertyInsurance-WebServiceApp-context-root/HelloWorldAppPort?wsdl', true);
+	
+			// build SOAP request
+			var sr =
+				'<?xml version="1.0" encoding="UTF-8"?>'+
+				'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+					'<soap:Header/>'+
+					'<soap:Body>'+
+						'<ns1:getFromDB xmlns:ns1="http://webserviceapp/"/>'+
+					'<\/soap:Body>'+
+				'<\/soap:Envelope>';
+			
+			// Send the POST request
+			xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+			xmlhttp.setRequestHeader('SOAPAction', 'getFromDB');
+			xmlhttp.send(sr);
+			// send request
+			
+			xmlhttp.onreadystatechange = function () {
+				if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+					if (xmlhttp.status == 200) {
+						var xmlDoc = $.parseXML( xmlhttp.responseText ),
+							dom = $(xmlDoc),
+							elems = dom.find("return");
+
+						elems.each(function() {
+							try {
+								var obj = JSON.parse(this.textContent);
+								obj.id = 'ID-'+ Date.now();
+								obj.type = 'Health Insurance';
+
+								cards.push(obj);
+							} catch(e) {}
+						});
+					}
+
+					cb && cb();
+				}
+			}
+		}
+		
+	</script>
+
+	<body>
+</html>

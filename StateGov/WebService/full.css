@@ -1,0 +1,107 @@
+* { box-sixing: border-box; }
+
+body {
+    padding-top: 76px;
+    background-color: rgb(140,154,182);
+    height: 100%;
+    font-family: 'Lato', sans-serif;
+}
+
+body.bg .bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /*background-image: url(https://texas.gov/wp-content/themes/portal-2015-theme/library/assets/img_opt/66.jpg);*/
+    background-image: url(https://c.pxhere.com/photos/4e/89/hill_valley_hillside_countryside_rocks_trees_nature_mountains-1017412.jpg!d);
+    background-size: cover;
+    opacity: .8;
+    box-shadow: 0 0 32px -4px rgba(0,0,0,.6) inset;
+}
+
+@media (min-width: 992px) {
+}
+
+a, a:link, a:visited { color: black; }
+
+.logo { height: 50px; }
+
+.button {
+    position: relative;
+    background-color: #A03336;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    border: 0;
+    min-width: 200px;
+    color: #fff;
+    font-size: 1.4rem;
+    outline: 0;
+}
+.button:focus { outline: 0 }
+
+.button .spinner {
+    width: 110px;
+    position: absolute;
+    top: -10px;
+    right: -25px;
+    opacity: 0;
+}
+.button.show .spinner { opacity: 1 }
+
+
+#alert-success {
+    margin: 1rem;
+    text-align: center;
+    transition: opacity linear .3s;
+    opacity: 0;
+}
+#alert-success.show { opacity: 1 }
+
+#main-menu {
+    background-color: rgba(255,255,255,.9);
+    border-bottom: 1px solid rgba(0,0,0,.4);
+}
+#main-menu a {
+    color: #444;
+    text-transform: uppercase;
+}
+#main-menu .navbar-brand {
+    position: relative;
+    left: -1rem;
+}
+
+#main-menu .active { 
+    background-color: #A03336;
+    border-radius: 5px;
+}
+#main-menu .active a { color: #fff; }
+#main-menu .nav-item { padding: 0 5px; }
+
+.section {
+    display: block;
+    margin: 2rem auto;
+    background-color: rgba(0,0,0,.5);
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+.section input[type=text] {
+    display: block;
+    padding: 1rem;
+    border: 0;
+    border-radius: 6px;
+    width: 100%;
+    margin: 2rem 0;
+}
+
+
+h1 {
+    font-weight: 900;
+    font-size: 3rem;
+    text-shadow: 2px 2px #444;
+    color: #fff;
+    margin: 0 auto 2rem;
+}
+
+
